@@ -1,5 +1,5 @@
 import pytest
-from rusty_email_validator import validate
+from rusty_validator import validate_email
 
 
 @pytest.mark.parametrize(
@@ -64,7 +64,7 @@ from rusty_email_validator import validate
         "validate_email_example@valid-----hyphens.com_should_be_true",
         "validate_email_example@valid-with-hyphens.com_should_be_true",
         "validate_email_test@domain.with.idn.tld.उदाहरण.परीक्षा_should_be_true",
-        "validate_email_\"test@test\"@example.com_should_be_false",
+        'validate_email_"test@test"@example.com_should_be_false',
         "validate_email_a@atm.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_should_be_true",
         "validate_email_a@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.atm_should_be_true",
         "validate_email_a@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbb.atm_should_be_true",
@@ -86,16 +86,16 @@ from rusty_email_validator import validate
         "validate_email_example@invalid.com-_should_be_false",
         "validate_email_example@inv-.alid-.com_should_be_false",
         "validate_email_example@inv-.-alid.com_should_be_false",
-        "validate_email_test@example.com\\n\\n<script src=\"x.js\">_should_be_false",
-        "validate_email_\"\\\\011\"@here.com_should_be_false",
-        "validate_email_\"\\\\012\"@here.com_should_be_false",
+        'validate_email_test@example.com\\n\\n<script src="x.js">_should_be_false',
+        'validate_email_"\\\\011"@here.com_should_be_false',
+        'validate_email_"\\\\012"@here.com_should_be_false',
         "validate_email_trailingdot@shouldfail.com._should_be_false",
         "validate_email_a@b.com\\n_should_be_false",
         "validate_email_a\\n@b.com_should_be_false",
-        "validate_email_\"test@test\"\\n@example.com_should_be_false",
+        'validate_email_"test@test"\\n@example.com_should_be_false',
         "validate_email_a@[127.0.0.1]\\n_should_be_false",
         "validate_email_John.Doe@exam_ple.com_should_be_false",
-    ]
+    ],
 )
 def test_validate_email(email: str, expected: bool) -> None:
-    assert validate(email) == expected
+    assert validate_email(email) == expected
