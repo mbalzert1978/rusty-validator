@@ -406,7 +406,7 @@ checksum = "7a66a03ae7c801facd77a29370b4faec201768915ac14a721ba36f20bc9c209b"
 
 [[package]]
 name = "rusty_validator"
-version = "0.1.1-rc.1"
+version = "0.1.1-rc.2"
 dependencies = [
  "pyo3",
  "validator",
