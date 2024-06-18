@@ -6,6 +6,7 @@ build-backend = "maturin"
 name = "rusty-email-validator"
 requires-python = ">=3.8"
 authors = [{ name = "Iorio Markus", email = "mbalzert@gmail.com" }]
+urls = { "Homepage" = "https://github.com/mbalzert1978/rusty-email-validator" }
 keywords = ["rust", "email", "validation"]
 classifiers = [
     "Programming Language :: Rust",
