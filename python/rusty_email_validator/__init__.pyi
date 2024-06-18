@@ -1,3 +1,0 @@
-__version__: str
-
-def validate(email: str) -> bool: ...
