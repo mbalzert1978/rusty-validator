@@ -74,4 +74,88 @@ mod tests {
             assert!(!result);
         });
     }
+
+    #[test]
+    fn test_valid_url() {
+        pyo3::prepare_freethreaded_python();
+        Python::with_gil(|py| {
+            let rusty_validator = PyModule::new_bound(py, "_validator").unwrap();
+            _validator(&rusty_validator).unwrap();
+
+            let locals = [("rusty_validator", rusty_validator)].into_py_dict_bound(py);
+            let result: bool = py
+                .eval_bound(
+                    "rusty_validator.validate_url('https://example.com')",
+                    None,
+                    Some(&locals),
+                )
+                .unwrap()
+                .extract()
+                .unwrap();
+            assert!(result);
+        });
+    }
+
+    #[test]
+    fn test_invalid_url() {
+        pyo3::prepare_freethreaded_python();
+        Python::with_gil(|py| {
+            let rusty_validator = PyModule::new_bound(py, "_validator").unwrap();
+            _validator(&rusty_validator).unwrap();
+
+            let locals = [("rusty_validator", rusty_validator)].into_py_dict_bound(py);
+            let result: bool = py
+                .eval_bound(
+                    "rusty_validator.validate_url('invalid-url')",
+                    None,
+                    Some(&locals),
+                )
+                .unwrap()
+                .extract()
+                .unwrap();
+            assert!(!result);
+        });
+    }
+
+    #[test]
+    fn test_valid_ip() {
+        pyo3::prepare_freethreaded_python();
+        Python::with_gil(|py| {
+            let rusty_validator = PyModule::new_bound(py, "_validator").unwrap();
+            _validator(&rusty_validator).unwrap();
+
+            let locals = [("rusty_validator", rusty_validator)].into_py_dict_bound(py);
+            let result: bool = py
+                .eval_bound(
+                    "rusty_validator.validate_ip('127.0.0.1')",
+                    None,
+                    Some(&locals),
+                )
+                .unwrap()
+                .extract()
+                .unwrap();
+            assert!(result);
+        });
+    }
+
+    #[test]
+    fn test_invalid_ip() {
+        pyo3::prepare_freethreaded_python();
+        Python::with_gil(|py| {
+            let rusty_validator = PyModule::new_bound(py, "_validator").unwrap();
+            _validator(&rusty_validator).unwrap();
+
+            let locals = [("rusty_validator", rusty_validator)].into_py_dict_bound(py);
+            let result: bool = py
+                .eval_bound(
+                    "rusty_validator.validate_ip('999.999.999.999')",
+                    None,
+                    Some(&locals),
+                )
+                .unwrap()
+                .extract()
+                .unwrap();
+            assert!(!result);
+        });
+    }
 }
