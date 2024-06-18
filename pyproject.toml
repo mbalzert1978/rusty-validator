@@ -3,7 +3,7 @@ requires = ["maturin>=1.6,<2.0"]
 build-backend = "maturin"
 
 [project]
-name = "validate_email"
+name = "email-validator"
 requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Rust",
@@ -13,3 +13,11 @@ classifiers = [
 dynamic = ["version"]
 [tool.maturin]
 features = ["pyo3/extension-module"]
+python-source = "python"
+module-name = "email_validator._email_validator"
+
+[tool.mypy]
+disallow_untyped_defs = true
+ignore_missing_imports = true
+show_error_codes = true
+no_implicit_optional = true
