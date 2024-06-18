@@ -3,11 +3,11 @@ requires = ["maturin>=1.6,<2.0"]
 build-backend = "maturin"
 
 [project]
-name = "rusty-email-validator"
+name = "rusty-validator"
 requires-python = ">=3.8"
 authors = [{ name = "Iorio Markus", email = "mbalzert@gmail.com" }]
-urls = { "Homepage" = "https://github.com/mbalzert1978/rusty-email-validator" }
-keywords = ["rust", "email", "validation"]
+urls = { "Homepage" = "https://github.com/mbalzert1978/rusty-validator" }
+keywords = ["rust", "validation"]
 classifiers = [
     "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",
@@ -20,7 +20,7 @@ dynamic = ["license", "version"]
 [tool.maturin]
 features = ["pyo3/extension-module"]
 python-source = "python"
-module-name = "rusty_email_validator._email_validator"
+module-name = "rusty_validator._validator"
 
 [tool.mypy]
 disallow_untyped_defs = true
