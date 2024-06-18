@@ -1,6 +1,6 @@
 [package]
 name = "rusty_validator"
-version = "0.1.1-rc.2"
+version = "0.1.1-rc.3"
 edition = "2021"
 description = "A Rust-based validation library with Python bindings, leveraging the power of pyo3 and validator crates to provide robust and efficient email validation."
 license = "MIT License"
