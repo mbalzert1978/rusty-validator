@@ -40,6 +40,41 @@ is_valid_ip = validate_ip(ip)
 print(f"Is valid IP: {is_valid_ip}")
 ```
 
+## Development
+
+This project uses [uv](https://docs.astral.sh/uv/) to manage the virtual environment,
+dev dependencies, and the pinned Python version (`.python-version`).
+[maturin](https://www.maturin.rs/) remains the build backend that compiles the Rust
+extension — the two are complementary: uv layers on top, maturin stays in `[build-system]`.
+
+### Prerequisites
+
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)
+- A [Rust toolchain](https://rustup.rs/) (cargo/rustc) to compile the extension
+
+### Setup
+
+```sh
+uv sync                          # create .venv + install dev tools (maturin, pytest, mypy) from uv.lock
+uv run maturin develop           # compile the Rust extension into the venv
+```
+
+After every change to `src/lib.rs`, re-run `uv run maturin develop` — uv does **not**
+recompile compiled projects automatically.
+
+### Test & type-check
+
+```sh
+uv run pytest                    # Python tests
+uv run mypy python               # type-check stubs/sources
+```
+
+### Build a wheel
+
+```sh
+uv run maturin build --release   # outputs to target/wheels/
+```
+
 ## License
 
 This project is licensed under the MIT License.
