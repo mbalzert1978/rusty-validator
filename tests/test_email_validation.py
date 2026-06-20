@@ -99,3 +99,8 @@ from rusty_validator import validate_email
 )
 def test_validate_email(email: str, expected: bool) -> None:
     assert validate_email(email) == expected
+
+
+def test_validate_email_when_none_then_type_error() -> None:
+    with pytest.raises(TypeError):
+        validate_email(None)  # type: ignore[arg-type]
