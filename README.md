@@ -10,7 +10,7 @@ This project provides a simple validation library written in Rust, with Python b
 
 ## Requirements
 
-- Python 3.8 or higher
+- Python 3.13 or higher
 
 ## Installation
 
