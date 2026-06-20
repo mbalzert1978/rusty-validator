@@ -75,28 +75,39 @@ rusty-validator/
 
 ## Entwicklungsbefehle
 
+[uv](https://docs.astral.sh/uv/) verwaltet venv, Dev-Dependencies (`[dependency-groups]`
+in [pyproject.toml](pyproject.toml)) und die Python-Version ([.python-version](.python-version));
+**maturin bleibt das Build-Backend** (`[build-system]`). Einmal `uv sync` holt die Tools
+ins `.venv`; danach laufen alle Befehle ohne globale Installation via `uv run`. (Ohne uv
+funktionieren die blanken Befehle im aktiven venv weiterhin.)
+
+```bash
+uv sync                    # .venv + Dev-Tools (pytest, mypy, maturin) aus uv.lock
+```
+
 ### Bauen & in das venv installieren (Entwicklung)
 
 ```bash
-maturin develop            # kompiliert die Rust-Erweiterung in das aktive venv
-maturin develop --release  # optimierter Build (langsamer zu bauen, schneller zur Laufzeit)
+uv run maturin develop            # kompiliert die Rust-Erweiterung in das venv
+uv run maturin develop --release  # optimierter Build (langsamer zu bauen, schneller zur Laufzeit)
 ```
 
-Nach jeder Änderung an [src/lib.rs](src/lib.rs) muss `maturin develop` neu laufen,
-bevor die Python-Tests die Änderung sehen.
+Nach jeder Änderung an [src/lib.rs](src/lib.rs) muss `maturin develop` neu laufen, bevor
+die Python-Tests die Änderung sehen — **uv recompiliert kompilierte Projekte nicht
+automatisch**.
 
 ### Tests
 
 ```bash
-pytest                     # Python-Tests (benötigt vorher: maturin develop)
-pytest --cov               # mit Coverage
-cargo test                 # Rust-Unit-Tests im #[cfg(test)]-Modul von src/lib.rs
+uv run pytest              # Python-Tests (benötigt vorher: maturin develop)
+uv run pytest --cov        # mit Coverage
+uv run cargo test          # Rust-Unit-Tests; via uv, damit pyo3 die venv-Python findet
 ```
 
 ### Typprüfung (mypy-Config in pyproject.toml)
 
 ```bash
-mypy python                # prüft Stubs/Python-Quelle (disallow_untyped_defs aktiv)
+uv run mypy python         # prüft Stubs/Python-Quelle (disallow_untyped_defs aktiv)
 ```
 
 ### Rust-Standardwerkzeuge
@@ -109,7 +120,7 @@ cargo clippy               # Lints
 ### Wheels bauen
 
 ```bash
-maturin build --release    # baut ein Wheel nach target/wheels/
+uv run maturin build --release    # baut ein Wheel nach target/wheels/
 ```
 
 ## Einen neuen Validator hinzufügen

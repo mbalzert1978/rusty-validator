@@ -70,5 +70,4 @@ docs/_build/
 # VSCode
 .vscode/
 
-# Pyenv
-.python-version
+# Pyenv / uv: .python-version is committed (pins the dev interpreter)
