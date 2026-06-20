@@ -17,6 +17,14 @@ classifiers = [
 ]
 dynamic = ["license", "version"]
 
+[dependency-groups]
+dev = [
+    "maturin>=1.6,<2.0",
+    "pytest",
+    "pytest-cov",
+    "mypy",
+]
+
 [tool.maturin]
 features = ["pyo3/extension-module"]
 python-source = "python"
