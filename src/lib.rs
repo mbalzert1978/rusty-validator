@@ -27,135 +27,40 @@ fn _validator(m: &Bound<'_, PyModule>) -> PyResult<()> {
     Ok(())
 }
 
+// The #[pyfunction]s are plain Rust fns too, so we test the wrappers directly — no
+// embedded interpreter needed. The Python-level integration (module registration, name
+// binding) is covered by the pytest suite against the real built extension.
 #[cfg(test)]
 mod tests {
-    use pyo3::types::IntoPyDict;
-
     use super::*;
 
     #[test]
     fn test_valid_email() {
-        pyo3::prepare_freethreaded_python();
-        Python::with_gil(|py| {
-            let rusty_validator = PyModule::new_bound(py, "_validator").unwrap();
-            _validator(&rusty_validator).unwrap();
-
-            let locals = [("rusty_validator", rusty_validator)].into_py_dict_bound(py);
-            let result: bool = py
-                .eval_bound(
-                    "rusty_validator.validate_email('example@example.com')",
-                    None,
-                    Some(&locals),
-                )
-                .unwrap()
-                .extract()
-                .unwrap();
-            assert!(result);
-        });
+        assert!(validate_email("example@example.com".to_string()).unwrap());
     }
 
     #[test]
     fn test_invalid_email() {
-        pyo3::prepare_freethreaded_python();
-        Python::with_gil(|py| {
-            let rusty_validator = PyModule::new_bound(py, "_validator").unwrap();
-            _validator(&rusty_validator).unwrap();
-
-            let locals = [("rusty_validator", rusty_validator)].into_py_dict_bound(py);
-            let result: bool = py
-                .eval_bound(
-                    "rusty_validator.validate_email('invalid-email')",
-                    None,
-                    Some(&locals),
-                )
-                .unwrap()
-                .extract()
-                .unwrap();
-            assert!(!result);
-        });
+        assert!(!validate_email("invalid-email".to_string()).unwrap());
     }
 
     #[test]
     fn test_valid_url() {
-        pyo3::prepare_freethreaded_python();
-        Python::with_gil(|py| {
-            let rusty_validator = PyModule::new_bound(py, "_validator").unwrap();
-            _validator(&rusty_validator).unwrap();
-
-            let locals = [("rusty_validator", rusty_validator)].into_py_dict_bound(py);
-            let result: bool = py
-                .eval_bound(
-                    "rusty_validator.validate_url('https://example.com')",
-                    None,
-                    Some(&locals),
-                )
-                .unwrap()
-                .extract()
-                .unwrap();
-            assert!(result);
-        });
+        assert!(validate_url("https://example.com".to_string()).unwrap());
     }
 
     #[test]
     fn test_invalid_url() {
-        pyo3::prepare_freethreaded_python();
-        Python::with_gil(|py| {
-            let rusty_validator = PyModule::new_bound(py, "_validator").unwrap();
-            _validator(&rusty_validator).unwrap();
-
-            let locals = [("rusty_validator", rusty_validator)].into_py_dict_bound(py);
-            let result: bool = py
-                .eval_bound(
-                    "rusty_validator.validate_url('invalid-url')",
-                    None,
-                    Some(&locals),
-                )
-                .unwrap()
-                .extract()
-                .unwrap();
-            assert!(!result);
-        });
+        assert!(!validate_url("invalid-url".to_string()).unwrap());
     }
 
     #[test]
     fn test_valid_ip() {
-        pyo3::prepare_freethreaded_python();
-        Python::with_gil(|py| {
-            let rusty_validator = PyModule::new_bound(py, "_validator").unwrap();
-            _validator(&rusty_validator).unwrap();
-
-            let locals = [("rusty_validator", rusty_validator)].into_py_dict_bound(py);
-            let result: bool = py
-                .eval_bound(
-                    "rusty_validator.validate_ip('127.0.0.1')",
-                    None,
-                    Some(&locals),
-                )
-                .unwrap()
-                .extract()
-                .unwrap();
-            assert!(result);
-        });
+        assert!(validate_ip("127.0.0.1".to_string()).unwrap());
     }
 
     #[test]
     fn test_invalid_ip() {
-        pyo3::prepare_freethreaded_python();
-        Python::with_gil(|py| {
-            let rusty_validator = PyModule::new_bound(py, "_validator").unwrap();
-            _validator(&rusty_validator).unwrap();
-
-            let locals = [("rusty_validator", rusty_validator)].into_py_dict_bound(py);
-            let result: bool = py
-                .eval_bound(
-                    "rusty_validator.validate_ip('999.999.999.999')",
-                    None,
-                    Some(&locals),
-                )
-                .unwrap()
-                .extract()
-                .unwrap();
-            assert!(!result);
-        });
+        assert!(!validate_ip("999.999.999.999".to_string()).unwrap());
     }
 }
