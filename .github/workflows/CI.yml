@@ -131,14 +131,10 @@ jobs:
           path: dist
 
   macos:
-    runs-on: ${{ matrix.platform.runner }}
-    strategy:
-      matrix:
-        platform:
-          - runner: macos-13
-            target: x86_64
-          - runner: macos-14
-            target: aarch64
+    # Single universal2 build on Apple Silicon: Intel macOS runners (macos-13) queue for
+    # hours / don't schedule on public repos, while one ARM runner emits a fat x86_64+arm64
+    # wheel. abi3 cross-compiles cleanly, so this keeps Intel coverage without an Intel runner.
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -147,14 +143,14 @@ jobs:
       - name: Build wheels
         uses: PyO3/maturin-action@v1
         with:
-          target: ${{ matrix.platform.target }}
-          # abi3-py313: one cp313-abi3 wheel per platform, runs on all CPython >=3.13.
+          target: universal2-apple-darwin
+          # abi3-py313: one cp313-abi3 wheel, runs on all CPython >=3.13.
           args: --release --out dist -i 3.13
           sccache: 'true'
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
-          name: wheels-macos-${{ matrix.platform.target }}
+          name: wheels-macos-universal2
           path: dist
 
   sdist:
