@@ -64,7 +64,7 @@ rusty-validator/
 ├── Cargo.toml / Cargo.lock       # Rust-Crate (Name, Version, Dependencies)
 ├── pyproject.toml                # maturin-Build + mypy-Konfiguration
 ├── docs/adr/                     # Architektur-Entscheidungen (ADRs)
-├── src/lib.rs                    # Rust: #[pyfunction]s + #[pymodule] + Rust-Tests
+├── src/lib.rs                    # Rust: #[pyfunction]s + #[pymodule]
 ├── python/rusty_validator/
 │   ├── __init__.py               # Re-Export der nativen Funktionen
 │   ├── __init__.pyi              # Typ-Stubs der öffentlichen API
@@ -101,8 +101,11 @@ automatisch**.
 ```bash
 uv run pytest              # Python-Tests (benötigt vorher: maturin develop)
 uv run pytest --cov        # mit Coverage
-uv run cargo test          # Rust-Unit-Tests; via uv, damit pyo3 die venv-Python findet
 ```
+
+Es gibt bewusst **keine** Rust-`#[cfg(test)]`-Tests: das Binding wird über die
+pytest-Suite gegen die echte Extension geprüft (treuer als ein In-Process-Embedded-Test),
+und die `validator`-Crate testen wir nicht nach (ADR 0001).
 
 ### Typprüfung (mypy-Config in pyproject.toml)
 
@@ -138,7 +141,7 @@ Hinzufügen eines Validators die ADR-Prinzipien einhalten:
    (`__all__`) und im Stub [`__init__.pyi`](python/rusty_validator/__init__.pyi) ergänzen.
 3. **Tests** ([tests/](tests/)): parametrisierte `pytest`-Fälle (gültig **und** ungültig);
    für den Typ-Vertrag auch einen `TypeError`-Fall (ADR 0004).
-4. `maturin develop` ausführen, dann `pytest` und `cargo test`.
+4. `maturin develop` ausführen, dann `pytest`.
 5. **`graphify update .`** ausführen, um den Wissensgraphen aktuell zu halten.
 
 ## Release

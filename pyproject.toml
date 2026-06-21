@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "rusty-validator"
-requires-python = ">=3.8"
+requires-python = ">=3.13"
 authors = [{ name = "Iorio Markus", email = "mbalzert@gmail.com" }]
 urls = { "Homepage" = "https://github.com/mbalzert1978/rusty-validator" }
 keywords = ["rust", "validation"]
@@ -26,7 +26,7 @@ dev = [
 ]
 
 [tool.maturin]
-features = ["pyo3/extension-module"]
+features = ["pyo3/extension-module", "pyo3/abi3-py313"]
 python-source = "python"
 module-name = "rusty_validator._validator"
 

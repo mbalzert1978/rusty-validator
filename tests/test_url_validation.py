@@ -19,3 +19,8 @@ from rusty_validator import validate_url
 )
 def test_validate_url(url: str, expected: bool) -> None:
     assert validate_url(url) == expected
+
+
+def test_validate_url_when_none_then_type_error() -> None:
+    with pytest.raises(TypeError):
+        validate_url(None)  # type: ignore[arg-type]

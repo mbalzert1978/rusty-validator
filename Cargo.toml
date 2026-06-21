@@ -11,5 +11,5 @@ name = "rusty_validator"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = "0.21.1"
+pyo3 = "0.29.0"
 validator = "0.18.1"

@@ -107,3 +107,8 @@ def test_validate_ip_v4(input: str, expected: bool) -> None:
 )
 def test_validate_ip_v6(input: str, expected: bool) -> None:
     assert validate_ip(input) == expected
+
+
+def test_validate_ip_when_none_then_type_error() -> None:
+    with pytest.raises(TypeError):
+        validate_ip(None)  # type: ignore[arg-type]
