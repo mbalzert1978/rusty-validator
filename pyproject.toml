@@ -1,5 +1,5 @@
 [build-system]
-requires = ["maturin>=1.6,<2.0"]
+requires = ["maturin>=1.8,<2.0"]
 build-backend = "maturin"
 
 [project]
@@ -19,7 +19,7 @@ dynamic = ["license", "version"]
 
 [dependency-groups]
 dev = [
-    "maturin>=1.6,<2.0",
+    "maturin>=1.8,<2.0",
     "pytest",
     "pytest-cov",
     "mypy",
