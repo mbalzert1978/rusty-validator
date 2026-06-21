@@ -12,4 +12,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 pyo3 = "0.29.0"
-validator = "0.18.1"
+validator = "0.20"
